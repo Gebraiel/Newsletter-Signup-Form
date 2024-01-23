@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+    <script
+      src="https://kit.fontawesome.com/1a11e246e6.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/images/favicon-32x32.png"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>
+      Frontend Mentor | Newsletter sign-up form with success message
+    </title>
+  </head>
+  <body>
+    <main class="container row active">
+      <article>
+        <h1>Stay updated!</h1>
+        <p>Join 60,000+ product managers receiving monthly updates on:</p>
+        <ul>
+          <li>
+            <i class="fa-solid fa-circle-check"></i> Product discovery and
+            building what matters
+          </li>
+          <li>
+            <i class="fa-solid fa-circle-check"></i> Measuring to ensure updates
+            are a success
+          </li>
+          <li><i class="fa-solid fa-circle-check"></i> And much more!</li>
+        </ul>
+        <form class="col">
+          <label class="row" for="email"
+            ><b>Email Address</b> <span class="error"></span
+          ></label>
+          <input class="email" type="email" placeholder="email@company.com" />
+          <input
+            class="subscribe-button button"
+            type="button"
+            value="Subscribe to monthly newsletter"
+          />
+        </form>
+      </article>
+      <div class="image">
+        <img
+          class="desktop"
+          src="assets/images/illustration-sign-up-desktop.svg"
+          alt="sign up image"
+        />
+        <img
+          class="mobile"
+          src="assets/images/illustration-sign-up-mobile.svg"
+          alt="sign up image"
+        />
+      </div>
+    </main>
+    <div class="success-state">
+      <i class="fa-solid fa-circle-check"></i>
+      <h2>Thanks for subscribing!</h2>
+      <p>
+        A confirmation email has been sent to <b class="success-email"></b>.
+        Please open it and click the button inside to confirm your subscription.
+      </p>
+      <input class="button" type="button" value="Dismiss message" />
+    </div>
+
+    <script>
+      let button = document.querySelector(".subscribe-button");
+      let input = document.querySelector("input.email");
+      let error = document.querySelector("label span.error");
+
+      button.addEventListener("click", function (event) {
+        event.preventDefault();
+        checkEmail();
+      });
+      function checkEmail() {
+        let email = input.value;
+        if (email === "") {
+          error.textContent = "This field is required";
+          input.classList.add("error");
+        } else {
+          let regex = /\w{1,}@\w{1,}\.\w{2,4}/gi;
+          if (regex.test(email)) {
+            input.classList.remove("error");
+            error.textContent = "";
+            showSuccessState(email);
+          } else {
+            input.classList.add("error");
+            error.textContent = "Valid email required";
+          }
+        }
+      }
+      function showSuccessState(email) {
+        let successDiv = document.querySelector("div.success-state");
+        let mainContainer = document.querySelector("main.container");
+        let emailContainer = document.querySelector("div.success-state p b");
+        let dismissButton = document.querySelector("div.success-state input");
+        mainContainer.classList.remove("active");
+        emailContainer.textContent = email;
+        setTimeout(function () {
+          successDiv.classList.add("active");
+        }, 100);
+        dismissButton.addEventListener("click", function () {
+          successDiv.classList.remove("active");
+          emailContainer.textContent = "";
+          setTimeout(function () {
+            mainContainer.classList.add("active");
+          }, 100);
+        });
+      }
+    </script>
+  </body>
+</html>
